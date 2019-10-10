@@ -20,6 +20,7 @@ public class Othello {
 	public static final int DIMENSION = 8; // This is an 8x8 game
 	private char whosTurn = OthelloBoard.P1; // P1 moves first!
 	private int numMoves = 0;
+	OthelloBoard Board = new OthelloBoard(DIMENSION);
 
 	/**
 	 * return P1,P2 or EMPTY depending on who moves next.
@@ -27,7 +28,7 @@ public class Othello {
 	 * @return P1, P2 or EMPTY
 	 */
 	public char getWhosTurn() {
-		return ' ';
+		return whosTurn;
 	}
 
 	/**
@@ -40,7 +41,21 @@ public class Othello {
 	 * @return whether the move was successfully made.
 	 */
 	public boolean move(int row, int col) {
-		return true;
+		boolean firstMove = false;
+		boolean secondMove = false;
+		if (this.whosTurn == OthelloBoard.P1) {
+			firstMove = Board.move(row,col,OthelloBoard.P1);
+			whosTurn = OthelloBoard.otherPlayer(OthelloBoard.P1);
+			numMoves ++;
+			return firstMove;
+		}
+		else {
+			secondMove = Board.move(row, col, OthelloBoard.P2);
+			whosTurn = OthelloBoard.otherPlayer(OthelloBoard.P2);
+			 numMoves++;
+			 return secondMove;
+		}
+
 	}
 
 	/**
@@ -49,7 +64,8 @@ public class Othello {
 	 * @return the number of tokens for player on the board
 	 */
 	public int getCount(char player) {
-		return 0;
+		
+		return Board.getCount(player);
 	}
 
 	/**
@@ -58,6 +74,11 @@ public class Othello {
 	 * @return P1, P2 or EMPTY for no winner, or the game is not finished.
 	 */
 	public char getWinner() {
+		if (!isGameOver() ) return OthelloBoard.EMPTY;
+		int playerOne = Board.getCount(OthelloBoard.P1);
+		int playerTwo = Board.getCount(OthelloBoard.P2);
+		if (playerOne > playerTwo) return OthelloBoard.P1;
+		else if (playerOne < playerTwo)return OthelloBoard.P2;
 		return OthelloBoard.EMPTY;
 	}
 
@@ -66,7 +87,7 @@ public class Othello {
 	 * @return whether the game is over (no player can move next)
 	 */
 	public boolean isGameOver() {
-		return true;
+		return Board.hasMove() == OthelloBoard.EMPTY;
 	}
 
 	/**
@@ -74,7 +95,8 @@ public class Othello {
 	 * @return a string representation of the board.
 	 */
 	public String getBoardString() {
-		return "";
+		
+		return Board.toString();
 	}
 
 	/**

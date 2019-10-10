@@ -43,10 +43,9 @@ public class OthelloBoard {
 	 * @return P2 or P1, the opposite of player
 	 */
 	public static char otherPlayer(char player) {
-		if (player == P1) {
-			return P2;
-	}
-		return P1;
+		if (player == P1) return P2;
+		else if (player == P2) return P1;
+		return EMPTY;
 	}
 
 	/**
@@ -56,10 +55,10 @@ public class OthelloBoard {
 	 * @return P1,P2 or EMPTY, EMPTY is returned for an invalid (row,col)
 	 */
 	public char get(int row, int col) {
-		if ( !(0 <= row  && row <= this.dim-1)  || !(0 <=col && col <= this.dim -1)) {
-			return EMPTY;}
+		if (this.validCoordinate(row, col)) {
+			return this.board[row][col];}
 		
-		return this.board[row][col];
+		return EMPTY;
 	}
 
 	/**
@@ -70,9 +69,10 @@ public class OthelloBoard {
 	 *         a position on the board.
 	 */
 	private boolean validCoordinate(int row, int col) {
-		if ( !(0 <= row  && row <= this.dim-1)  || !(0 <=col && col <= this.dim -1)) {
-			return false;}
-		return true;
+		if (row>=0 && row< this.dim && col >=0 && col <this.dim) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -94,71 +94,18 @@ public class OthelloBoard {
 	 *         alternation
 	 */
 	private char alternation(int row, int col, int drow, int dcol) {
-		char curPlayer = this.board[row][col];
-		if (! this.validCoordinate(row, col) || this.get(row, col) == EMPTY || (drow ==0 && dcol ==0)){
-			return EMPTY;}
-		int [] directions = {-1, 0, 1}; // possible direction should be tuple made of these numbers
-		if (! Arrays.asList(directions).contains(drow) || !Arrays.asList(directions).contains(dcol)) {
-			return EMPTY;
+		if (this.get(row, col) == EMPTY || (drow ==0 && dcol ==0) || this.get(row, col) == BOTH) return EMPTY;
+		
+		char curPlayer = get(row,col);
+		int curRow = row;
+		int curCol = col;
+		
+		while(this.get(curRow, curCol) == curPlayer) {
+			curRow += drow;
+			curCol +=dcol;
 		}
-		else if (drow == 0 && dcol == 1) {
-			for (int current = col+1; current < this.dim; current ++ ) {
-				if(curPlayer != this.get(row, current)) return otherPlayer(curPlayer);
-			}
-			}
-		else if (drow == 0 && dcol == -1) {
-			for(int current = col-1; current >= 0; current -- ) {
-				if(curPlayer != this.get(row, current)) return otherPlayer(curPlayer);
-			}
-		}
-		else if (drow == 1 && dcol == 0) {
-			for(int current = row+1; row < this.dim; current ++ ) {
-				if(curPlayer != this.get(row, current)) return otherPlayer(curPlayer);
-			}
-		}
-		else if (drow == -1 && dcol == 0) {
-			for(int current = row-1; current >= 0; current -- ) {
-				if(curPlayer != this.get(row, current)) return otherPlayer(curPlayer);
-			}
-		}
-		else if (drow == 1 && dcol == 1) {
-			int curCol = col+1;
-			int curRow = row +1;
-			while(curRow < this.dim || curCol < this.dim) {
-				if(curPlayer != this.get(curRow, curCol)) return otherPlayer(curPlayer);
-				curCol ++;
-				curRow ++;
-			}	
-		}
-		else if (drow == -1 && dcol == -1) {
-			int curCol = col-1;
-			int curRow = row-1;
-			while(curCol >= 0 || curRow >= 0) {
-				if(curPlayer != this.get(curRow, curCol)) return otherPlayer(curPlayer);
-				curCol --;
-				curRow --;
-			}
-		}
-		else if (drow == 1 && dcol == -1) {
-			int curCol = col - 1;
-			int curRow = row + 1;
-			while(curCol >= 0 || curRow < this.dim) {
-				if(curPlayer != this.get(curRow, curCol)) return otherPlayer(curPlayer);
-				curCol --;
-				curRow ++;
-			}
-		}
-		else if (drow == -1 && dcol == 1) {
-			int curCol = col+1;
-			int curRow = row-1;
-			while(curCol < this.dim || curRow >= 0) {
-				if(curPlayer != this.get(curRow, curCol)) return otherPlayer(curPlayer);
-				curCol ++;
-				curRow --;
-			}
-		}
-		return EMPTY;
-		}
+		return this.get(curRow, curCol);
+	}
 		
 
 	/**
@@ -177,7 +124,23 @@ public class OthelloBoard {
 	 *         board is reached before seeing a player token.
 	 */
 	private int flip(int row, int col, int drow, int dcol, char player) {
-		return -1;
+		int count = 0;
+		int curRow = row;
+		int curCol = col;
+		if (this.alternation(row, col, drow, dcol) == EMPTY) return -1;
+		else {
+			if (this.alternation(curRow, curCol, drow, dcol) == player) {
+				while (this.get(curRow, curCol)!= player) {
+					this.board[curRow][curCol] = player;
+					curRow +=drow;
+					curCol += dcol;
+					count ++;
+				}
+				return count;
+			}
+			return -1;
+		
+			}
 	}
 
 	/**
@@ -190,7 +153,12 @@ public class OthelloBoard {
 	 * @return P1,P2,EMPTY
 	 */
 	private char hasMove(int row, int col, int drow, int dcol) {
+		if (this.get(row, col) == EMPTY) {
+			return this.alternation(row+drow, col+dcol, drow, dcol);                                                                                                                  
+		}
 		return EMPTY;
+		
+		
 	}
 
 	/**
@@ -199,11 +167,30 @@ public class OthelloBoard {
 	 *         neither do.
 	 */
 	public char hasMove() {
+		boolean X = false; 
+		boolean O = false; 
+		int [] directions = {-1, 0, 1};
+		for(int row = 0; row < this.dim; row ++) {
+			for(int  col =0; col < this.dim; col++) {
+				for(int drow : directions) {
+					for(int dcol : directions) {
+						if (this.hasMove(row, col, drow, dcol)==P1) X = true;
+						if (this.hasMove(row, col, drow, dcol)==P2) O = true;
+						if (X && O) return BOTH;
+						}
+					}
+				}
+			}
+		if(X == true) return P1;
+		else if (O == true)return P2;
 		return EMPTY;
-	}
+		}
+		
+		
+	
 
 	/**
-	 * Make a move for player at position (row,col) according to Othello rules,
+	 * Make a move for player at position (row,col) according to Othello rules
 	 * making appropriate modifications to the board. Nothing is changed if this is
 	 * not a valid move.
 	 * 
@@ -215,8 +202,21 @@ public class OthelloBoard {
 	public boolean move(int row, int col, char player) {
 		// HINT: Use some of the above helper methods to get this methods
 		// job done!!
-
-		return true;
+		int[] directions = {-1, 0, 1};
+		boolean moved = false;
+		for (int drow : directions) {
+			for(int dcol:directions) {
+				if (this.hasMove(row, col, drow, dcol) == player){
+				this.flip(row+drow,col+dcol,drow,dcol, player);
+				moved = true;
+				}
+			}
+		}
+		if(moved) {
+			this.board[row][col] = player;
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -226,9 +226,11 @@ public class OthelloBoard {
 	 */
 	public int getCount(char player) {
 		int count = 0;
-		for(int row=0; row <this.dim-1; row++) {
-			for(int col = 0; row<this.dim-1; col ++) {
-				if (this.board[row][col]==player) count ++;
+		for(int row=0; row < this.dim; row++) {
+			for(int col=0; col<this.dim; col++) {
+				if(this.get(row, col) == player) {
+					count++;
+				}
 			}
 		}
 		return count;
