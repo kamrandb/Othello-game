@@ -1,21 +1,27 @@
 RandomVSRandom Report
 
 1) What is your conclusion, does the first or
-second player have some advantage, at least for a random strategy? 
+second player has some advantage, at least for a random strategy?
+
+Second player little has little advantage as after executing 10000 games player2 has a probability .54 winning, whereas player1 has 
+probability .46
 
 2) Watch https://www.youtube.com/watch?v=Iq9DzN6mvYA
 
-3) Briefly write your thoughts on the above video below:
+3) Briefly write your thoughts on the above video below: 
+Above video discusses how important statistics is on top of being quite complicated. Speaker also talks
+ about sample-based approach in solution of statistical problems. Speaker claims that even though these 
+ problems are hard to understand for people without degree in statistics, having simplest coding skills 
+ can help to achieve same results without mathematical complication letting the Python do the job.
 
-4) H0 is 
+4) H0 is statement that in RamdomVsRandom game probability of the first player winning is equal to the probability of the second player winning.
+p1 =p 2, where p1 is probability of first player winning, p2 is probability of second player winning
 
-5) Ha is 
-
-6) Choose one of the following and delete the other:
-   My experimental results support H0, so they do not support Ha
-   My experimental results do not support H0, so they support Ha
+5) Ha is a statement that rejects null hypothesis. In this case Ha is that the probability of the second player winning is not equal to 
+probability of the first player winning
 
 7) As in the video, use either math or code (add a Java Class) to argue for or against H0
+RandomVSRamdomReport class was created. After running the experiment 1000 the conclusion is Ha is true.
 
 References: 
 https://www.thoughtco.com/null-hypothesis-vs-alternative-hypothesis-3126413

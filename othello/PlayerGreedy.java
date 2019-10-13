@@ -22,7 +22,21 @@ package ca.utoronto.utm.assignment1.othello;
  */
 
 public class PlayerGreedy {
-	public Move getMove() {
-		return null;
+	
+	private Othello othello;
+	private char player;
+	public PlayerGreedy(Othello Othello, char player) {
+		this.othello = Othello;
+		this.player = player;
+	}
+	/**
+	 * After calculating all possible moves
+	 * returns a move yielding maximum number of tokens
+	 * @return Move made by greedy
+	 */
+	public Move getMove() {	
+		
+		return othello.Board.maxMove(player);
+		
 	}
 }

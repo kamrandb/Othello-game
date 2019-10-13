@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 /**
  * TODO: Document this class and make minimal changes as necessary.
  * 
+ * Human player makes move based on coordinates input through console.
+ * Starting from beginning and until games lasts User is prompted to 
+ * input number until it's valid.
  * @author arnold
  *
  */
@@ -24,14 +27,23 @@ public class PlayerHuman {
 		this.othello = othello;
 		this.player = player;
 	}
-
+	
+/**
+ * Player makes move in given place. 	
+ * @return return Move object
+ */
 	public Move getMove() {
 		
 		int row = getMove("row: ");
 		int col = getMove("col: ");
 		return new Move(row, col);
 	}
-
+/**
+ * Prompts user to input valid move number.
+ * Until input is correct this repeats. 
+ * @param message row or col depending on the order
+ * @return move number
+ */
 	private int getMove(String message) {
 		
 		int move, lower = 0, upper = 7;

@@ -95,7 +95,6 @@ public class OthelloBoard {
 	 */
 	private char alternation(int row, int col, int drow, int dcol) {
 		if (this.get(row, col) == EMPTY || (drow ==0 && dcol ==0) || this.get(row, col) == BOTH) return EMPTY;
-		
 		char curPlayer = get(row,col);
 		int curRow = row;
 		int curCol = col;
@@ -169,11 +168,10 @@ public class OthelloBoard {
 	public char hasMove() {
 		boolean X = false; 
 		boolean O = false; 
-		int [] directions = {-1, 0, 1};
 		for(int row = 0; row < this.dim; row ++) {
 			for(int  col =0; col < this.dim; col++) {
-				for(int drow : directions) {
-					for(int dcol : directions) {
+				for (int drow = -1; drow <= 1; drow++) {
+					for (int dcol = -1; dcol <= 1; dcol++) {
 						if (this.hasMove(row, col, drow, dcol)==P1) X = true;
 						if (this.hasMove(row, col, drow, dcol)==P2) O = true;
 						if (X && O) return BOTH;
@@ -181,13 +179,11 @@ public class OthelloBoard {
 					}
 				}
 			}
-		if(X == true) return P1;
-		else if (O == true)return P2;
+		if(X) return P1;
+		else if (O)return P2;
 		return EMPTY;
 		}
-		
-		
-	
+
 
 	/**
 	 * Make a move for player at position (row,col) according to Othello rules
@@ -202,10 +198,9 @@ public class OthelloBoard {
 	public boolean move(int row, int col, char player) {
 		// HINT: Use some of the above helper methods to get this methods
 		// job done!!
-		int[] directions = {-1, 0, 1};
 		boolean moved = false;
-		for (int drow : directions) {
-			for(int dcol:directions) {
+		for (int drow = -1; drow <= 1; drow++) {
+			for (int dcol = -1; dcol <= 1; dcol++) {
 				if (this.hasMove(row, col, drow, dcol) == player){
 				this.flip(row+drow,col+dcol,drow,dcol, player);
 				moved = true;
@@ -235,6 +230,88 @@ public class OthelloBoard {
 		}
 		return count;
 	}
+	
+	/**
+	 * Counting possible flips in given (row,col) in direction of(drow, dcol)
+	 * 
+	 * 
+	 * @param row    starting row, in {0,...,dim-1} (typically {0,...,7})
+	 * @param col    starting col, in {0,...,dim-1} (typically {0,...,7})
+	 * @param drow the row direction, in {-1,0,1}
+	 * @param dcol the col direction, in {-1,0,1}
+	 * @param player P1 or P2
+	 * @return number of possible flips;
+	 */
+	protected int possibleFlips(int row, int col, int drow, int dcol, char player) {
+		int count = 0;
+		int curRow = row;
+		int curCol = col;
+		while (this.get(curRow+drow, curCol+dcol) != player) {
+			count ++;
+			curRow += drow;
+			curCol += dcol;
+		}
+		return count;
+	
+	}
+			
+		/**
+		 * Finds the move for player which which maximizes the number of
+		 * tokens owned by this player. In case of a tie, between two moves,
+		 * (row1,column1) and (row2,column2) the one with the smallest row wins. In case
+		 * both moves have the same row, then the smaller column wins.
+		 * @param player
+		 * @return Move that yields maximum token for player
+		 */
+	protected Move maxMove(char player) {
+		Move maxMove = null;
+		int tokens = 0; // number of tokens this maxMove would yield
+		for (int row = 0; row < this.dim; row++) {
+			for(int col = 0; col < this.dim; col++) {
+				int count = 0;
+				for (int drow = -1; drow <= 1; drow++) {
+					for (int dcol = -1; dcol <= 1; dcol++) {
+						if (this.hasMove(row, col, drow, dcol)==player) {
+							count += this.possibleFlips(row, col, drow, dcol, player);
+						}
+					}
+				}
+				if(count > tokens) {
+					tokens = count;
+					maxMove = new Move(row, col);
+				}
+				else if (tokens == count && count != 0){
+					if (maxMove.getRow() > row) {
+						maxMove = new Move(row, col);
+					}
+					else if(maxMove.getRow() == row && maxMove.getCol() > col) {
+						maxMove = new Move(row,col);
+					}
+				}
+			}
+		}
+		return maxMove;
+	}
+	
+	/**
+	 * Checks if given player has a move in (row, col) in any direction
+	 * 
+	 * @param row  starting row, in {0,...,dim-1} (typically {0,...,7})
+	 * @param col  starting col, in {0,...,dim-1} (typically {0,...,7})
+	 * @param player user can be human or computer
+	 * @return return true if player can make move, otherwise false
+	 */
+	protected boolean canMove(int row, int col, char player) {
+		boolean found = false;
+		for (int drow = -1; drow <= 1; drow++) {
+			for (int dcol = -1; dcol <= 1; dcol++) {
+				 if(this.hasMove(row, col, drow, dcol)== player) found = true;
+			}
+		}
+		return found;
+	}
+	
+	
 
 	/**
 	 * @return a string representation of this, just the play area, with no
@@ -276,8 +353,8 @@ public class OthelloBoard {
 		}
 		s += '\n';
 		return s;
-	}
-
+}
+	
 	/**
 	 * A quick test of OthelloBoard. Output is on assignment page.
 	 * 
@@ -339,6 +416,5 @@ public class OthelloBoard {
 		System.out.println("who has a move=" + ob.hasMove());
 		System.out.println("Trying to move to (4,4) move=" + ob.move(4, 4, P2));
 		System.out.println(ob.toString());
-
 	}
 }

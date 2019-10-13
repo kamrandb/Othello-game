@@ -28,7 +28,9 @@ public class Othello {
 	 * @return P1, P2 or EMPTY
 	 */
 	public char getWhosTurn() {
-		return whosTurn;
+		if (Board.hasMove() == OthelloBoard.BOTH || Board.hasMove() == this.whosTurn) {
+		return whosTurn;}
+		return Board.hasMove();
 	}
 
 	/**
@@ -88,6 +90,7 @@ public class Othello {
 	 */
 	public boolean isGameOver() {
 		return Board.hasMove() == OthelloBoard.EMPTY;
+		
 	}
 
 	/**

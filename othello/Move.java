@@ -1,5 +1,7 @@
 package ca.utoronto.utm.assignment1.othello;
 /**
+ * This class represent move. Holds row and column of the move
+ * in it's instance variables.
  * 
  * @author arnold
  *
@@ -20,8 +22,11 @@ public class Move {
 	public int getCol() {
 		return col;
 	}
-
+/**
+ * String representation of the move
+ */
 	public String toString() {
 		return "(" + this.row + "," + this.col + ")";
 	}
+
 }

@@ -15,6 +15,63 @@ package ca.utoronto.utm.assignment1.othello;
  *
  */
 public class OthelloControllerRandomVSRandom {
+	
+	protected Othello othello;
+	PlayerRandom player1, player2;
+
+	/**
+	 * Constructs a new OthelloController with a new Othello game, where computer plays against 
+	 * computer such that P1. and P2 adhere to random strategy
+	 */
+	public OthelloControllerRandomVSRandom() {
+		
+		this.othello = new Othello();
+		this.player1 = new PlayerRandom(this.othello, OthelloBoard.P1);
+		this.player2 = new PlayerRandom(this.othello, OthelloBoard.P2);
+	}
+
+	public void play() {
+		
+		while (!othello.isGameOver()) {
+			this.report();
+
+			Move move = null;
+			char whosTurn = othello.getWhosTurn();
+
+			if (whosTurn == OthelloBoard.P1)
+				move = player1.getMove();
+			if (whosTurn == OthelloBoard.P2)
+				move = player2.getMove();
+
+			this.reportMove(whosTurn, move);
+			othello.move(move.getRow(), move.getCol());
+		}
+		this.reportFinal();
+	}
+
+	private void reportMove(char whosTurn, Move move) {
+		System.out.println(whosTurn + " makes move " + move + "\n");
+	}
+
+	private void report() {
+		
+		String s = othello.getBoardString() + OthelloBoard.P1 + ":" 
+				+ othello.getCount(OthelloBoard.P1) + " "
+				+ OthelloBoard.P2 + ":" + othello.getCount(OthelloBoard.P2) + "  " 
+				+ othello.getWhosTurn() + " moves next";
+		System.out.println(s);
+	}
+
+	private void reportFinal() {
+		
+		String s = othello.getBoardString() + OthelloBoard.P1 + ":" 
+				+ othello.getCount(OthelloBoard.P1) + " "
+				+ OthelloBoard.P2 + ":" + othello.getCount(OthelloBoard.P2) 
+				+ "  " + othello.getWinner() + " won\n";
+		System.out.println(s);
+	}
+	
+	
 	/**
 	 * Run main to execute the simulation and print out the two line results.
 	 * Output looks like 
@@ -25,6 +82,14 @@ public class OthelloControllerRandomVSRandom {
 	public static void main(String[] args) {
 		
 		int p1wins = 0, p2wins = 0, numGames = 10000;
+		for(int game = 0; game <= numGames; game ++) {
+			OthelloControllerRandomVSRandom oc = new OthelloControllerRandomVSRandom();
+			oc.play();
+			if (oc.othello.getWinner() == OthelloBoard.P1) p1wins ++;
+			else p2wins ++;
+			
+		}
+
 
 		System.out.println("Probability P1 wins=" + (float) p1wins / numGames);
 		System.out.println("Probability P2 wins=" + (float) p2wins / numGames);
