@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
  * Human player makes move based on coordinates input through console.
  * Starting from beginning and until games lasts User is prompted to 
  * input number until it's valid.
- * @author arnold
  *
  */
 public class PlayerHuman {

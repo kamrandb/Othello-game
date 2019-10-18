@@ -11,7 +11,7 @@ package ca.utoronto.utm.assignment1.othello;
  * about which your experimental results support. Place your short report in
  * randomVsRandomReport.txt.
  * 
- * @author arnold
+ * 
  *
  */
 public class OthelloControllerRandomVSRandom {

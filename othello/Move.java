@@ -3,7 +3,6 @@ package ca.utoronto.utm.assignment1.othello;
  * This class represent move. Holds row and column of the move
  * in it's instance variables.
  * 
- * @author arnold
  *
  */
 // TODO: Javadoc this class

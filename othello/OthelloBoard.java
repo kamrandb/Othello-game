@@ -10,8 +10,6 @@ import java.util.Arrays;
  * location (the opposite players tokens are flipped).
  * 
  * Othello makes use of the OthelloBoard.
- * 
- * @author arnold
  *
  */
 public class OthelloBoard {
@@ -364,57 +362,57 @@ public class OthelloBoard {
 		
 		OthelloBoard ob = new OthelloBoard(8);
 		System.out.println(ob.toString());
-		System.out.println("getCount(P1)=" + ob.getCount(P1));
-		System.out.println("getCount(P2)=" + ob.getCount(P2));
-		for (int row = 0; row < ob.dim; row++) {
-			for (int col = 0; col < ob.dim; col++) {
-				ob.board[row][col] = P1;
-			}
-		}
-		System.out.println(ob.toString());
-		System.out.println("getCount(P1)=" + ob.getCount(P1));
-		System.out.println("getCount(P2)=" + ob.getCount(P2));
-
-		// Should all be blank
-		for (int drow = -1; drow <= 1; drow++) {
-			for (int dcol = -1; dcol <= 1; dcol++) {
-				System.out.println("alternation=" + ob.alternation(4, 4, drow, dcol));
-			}
-		}
-
-		for (int row = 0; row < ob.dim; row++) {
-			for (int col = 0; col < ob.dim; col++) {
-				if (row == 0 || col == 0) {
-					ob.board[row][col] = P2;
-				}
-			}
-		}
-		System.out.println(ob.toString());
-
-		// Should all be P2 (O) except drow=0,dcol=0
-		for (int drow = -1; drow <= 1; drow++) {
-			for (int dcol = -1; dcol <= 1; dcol++) {
-				System.out.println("direction=(" + drow + "," + dcol + ")");
-				System.out.println("alternation=" + ob.alternation(4, 4, drow, dcol));
-			}
-		}
-
-		// Can't move to (4,4) since the square is not empty
-		System.out.println("Trying to move to (4,4) move=" + ob.move(4, 4, P2));
-
-		ob.board[4][4] = EMPTY;
-		ob.board[2][4] = EMPTY;
-
-		System.out.println(ob.toString());
-
-		for (int drow = -1; drow <= 1; drow++) {
-			for (int dcol = -1; dcol <= 1; dcol++) {
-				System.out.println("direction=(" + drow + "," + dcol + ")");
-				System.out.println("hasMove at (4,4) in above direction =" + ob.hasMove(4, 4, drow, dcol));
-			}
-		}
-		System.out.println("who has a move=" + ob.hasMove());
-		System.out.println("Trying to move to (4,4) move=" + ob.move(4, 4, P2));
-		System.out.println(ob.toString());
+//		System.out.println("getCount(P1)=" + ob.getCount(P1));
+//		System.out.println("getCount(P2)=" + ob.getCount(P2));
+//		for (int row = 0; row < ob.dim; row++) {
+//			for (int col = 0; col < ob.dim; col++) {
+//				ob.board[row][col] = P1;
+//			}
+//		}
+//		System.out.println(ob.toString());
+//		System.out.println("getCount(P1)=" + ob.getCount(P1));
+//		System.out.println("getCount(P2)=" + ob.getCount(P2));
+//
+//		// Should all be blank
+//		for (int drow = -1; drow <= 1; drow++) {
+//			for (int dcol = -1; dcol <= 1; dcol++) {
+//				System.out.println("alternation=" + ob.alternation(4, 4, drow, dcol));
+//			}
+//		}
+//
+//		for (int row = 0; row < ob.dim; row++) {
+//			for (int col = 0; col < ob.dim; col++) {
+//				if (row == 0 || col == 0) {
+//					ob.board[row][col] = P2;
+//				}
+//			}
+//		}
+//		System.out.println(ob.toString());
+//
+//		// Should all be P2 (O) except drow=0,dcol=0
+//		for (int drow = -1; drow <= 1; drow++) {
+//			for (int dcol = -1; dcol <= 1; dcol++) {
+//				System.out.println("direction=(" + drow + "," + dcol + ")");
+//				System.out.println("alternation=" + ob.alternation(4, 4, drow, dcol));
+//			}
+//		}
+//
+//		// Can't move to (4,4) since the square is not empty
+//		System.out.println("Trying to move to (4,4) move=" + ob.move(4, 4, P2));
+//
+//		ob.board[4][4] = EMPTY;
+//		ob.board[2][4] = EMPTY;
+//
+//		System.out.println(ob.toString());
+//
+//		for (int drow = -1; drow <= 1; drow++) {
+//			for (int dcol = -1; dcol <= 1; dcol++) {
+//				System.out.println("direction=(" + drow + "," + dcol + ")");
+//				System.out.println("hasMove at (4,4) in above direction =" + ob.hasMove(4, 4, drow, dcol));
+//			}
+//		}
+//		System.out.println("who has a move=" + ob.hasMove());
+//		System.out.println("Trying to move to (4,4) move=" + ob.move(4, 4, P2));
+//		System.out.println(ob.toString());
 	}
 }

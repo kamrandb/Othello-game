@@ -17,7 +17,6 @@ package ca.utoronto.utm.assignment1.othello;
  * 
  * See the examples supplied in the assignment handout.
  * 
- * @author arnold
  *
  */
 

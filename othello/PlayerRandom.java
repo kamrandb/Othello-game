@@ -8,7 +8,6 @@ import java.util.Random;
  * player can make, putting them in an ArrayList, and then randomly choosing one
  * of them.
  * 
- * @author arnold
  *
  */
 public class PlayerRandom {

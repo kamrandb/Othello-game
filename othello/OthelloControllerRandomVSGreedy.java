@@ -4,7 +4,7 @@ package ca.utoronto.utm.assignment1.othello;
  * The goal here is to print out the probability that Random wins and Greedy
  * wins as a result of playing 10000 games against each other with P1=Random and
  * P2=Greedy. What is your conclusion, which is the better strategy? 
- * @author arnold
+ * 
  * After executing 10 trials with each try consisting summation of results of 10000 games 
  * Random player has probability of winning .38, whereas Greedy player distinguished 
  * itself by probability of winning .62. Also different trial have been experimented 
